@@ -1,3 +1,26 @@
 packages:
-  # all packages in subdirs of packages/
-  - 'packages/*'
+  - 'frontend'
+  - 'backend'
+  - 'common'```
+
+*   **操作**：请在 GitHub 上打开 `pnpm-workspace.yaml` 文件，点击编辑，然后用上面的内容替换掉它现在的内容，然后保存（提交）更改。
+
+#### **第 2 步：找出你前端项目的确切名称**
+
+我们需要知道 `frontend/package.json` 文件里 `name` 字段的值。
+
+*   **操作**：请打开你仓库里的 `frontend/package.json` 文件，找到类似 `"name": "some-name",` 这一行。**请把这个 `"some-name"` 的值告诉我。** 它很可能就是 `"frontend"`。
+
+#### **第 3 步：更新 Cloudflare 的构建设置**
+
+一旦我们知道了前端项目的确切名称（来自第 2 步），我们就需要更新 Cloudflare 的设置。
+
+*   **操作**：前往你的 Cloudflare Pages 项目的 **设置 (Settings) -> 构建和部署 (Build & deployments)**。
+    1.  **构建命令 (Build command)**：
+        *   **如果第 2 步的名字是 `"frontend"`**，那么你需要把命令改成：
+            `pnpm --filter frontend build`
+    2.  **构建输出目录 (Build output directory)**：
+        *   你需要把它改成：
+            `frontend/dist`
+
+在你完成这三步并重新部署后，Cloudflare 就会在正确的文件夹 (`frontend`) 中运行构建命令，并找到正确的输出目录 (`frontend/dist`)。我们离成功非常近了！
